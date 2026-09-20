@@ -1,0 +1,55 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 25px;
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    h1 {
+      font-size: 20px;
+      padding: 3px 8px;
+      background: black;
+      color: white;
+      border-radius: 8px;
+    }
+    span {
+      font-size: 18px;
+      font-weight: 800;
+    }
+  }
+
+  .items {
+    color: gray;
+    padding: 10px 20px;
+    border: 1px solid lightgray;
+
+    &[data-active] {
+      background-color: black !important;
+      color: white !important;
+    }
+  }
+}
+
+.footer {
+  align-items: center;
+  padding: 16px 25px 20px;
+}
+
+.privacy,
+.privacyActive {
+  font-size: 13px;
+  color: gray;
+  text-decoration: none;
+  transition: color 0.2s;
+
+  &:hover {
+    color: black;
+  }
+}
+
+.privacyActive {
+  color: black;
+}
