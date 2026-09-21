@@ -82,6 +82,13 @@ export function AppSidebar() {
         >
           Privacy Policy
         </Link>
+
+        <Link
+          href="/terms"
+          className={pathname === "/terms" ? scss.privacyActive : scss.privacy}
+        >
+          Terms of Service
+        </Link>
       </SidebarFooter>
     </Sidebar>
   );
