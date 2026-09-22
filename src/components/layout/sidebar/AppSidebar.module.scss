@@ -35,21 +35,60 @@
 
 .footer {
   align-items: center;
-  padding: 16px 25px 20px;
+  gap: 10px;
+  padding: 16px 20px 20px;
+  border-top: 1px solid #ececec;
 }
 
-.privacy,
-.privacyActive {
-  font-size: 13px;
+.legal {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+}
+
+.legalLink,
+.legalLinkActive {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+
   color: gray;
+  font-size: 12px;
+  font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s;
+  white-space: nowrap;
+  transition:
+    color 0.2s,
+    background 0.2s;
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
 
   &:hover {
     color: black;
+    background: #f4f4f5;
   }
 }
 
-.privacyActive {
+.legalLinkActive {
   color: black;
+  background: #f4f4f5;
+
+  svg {
+    opacity: 1;
+  }
+}
+
+.copyright {
+  margin: 6px 0 0;
+  padding: 0 8px;
+  color: #c8cbd0;
+  font-size: 11px;
+  text-align: left;
 }

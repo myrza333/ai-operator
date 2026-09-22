@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ShieldCheck, FileText } from "lucide-react";
 
 import {
   Sidebar,
@@ -74,21 +75,25 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className={scss.footer}>
-        <Link
-          href="/privacy"
-          className={
-            pathname === "/privacy" ? scss.privacyActive : scss.privacy
-          }
-        >
-          Privacy Policy
-        </Link>
+        <nav className={scss.legal}>
+          <Link
+            href="/privacy"
+            className={pathname === "/privacy" ? scss.legalLinkActive : scss.legalLink}
+          >
+            <ShieldCheck size={13} />
+            <span>Privacy Policy</span>
+          </Link>
 
-        <Link
-          href="/terms"
-          className={pathname === "/terms" ? scss.privacyActive : scss.privacy}
-        >
-          Terms of Service
-        </Link>
+          <Link
+            href="/terms"
+            className={pathname === "/terms" ? scss.legalLinkActive : scss.legalLink}
+          >
+            <FileText size={13} />
+            <span>Terms of Service</span>
+          </Link>
+        </nav>
+
+        <p className={scss.copyright}>© {new Date().getFullYear()} AI Operator</p>
       </SidebarFooter>
     </Sidebar>
   );

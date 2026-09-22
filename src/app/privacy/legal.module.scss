@@ -1,0 +1,78 @@
+// Общие стили для /privacy и /terms — общая карточка документа
+.page {
+  min-height: 100dvh;
+  width: 100%;
+  padding: 48px 24px 80px;
+
+  display: flex;
+  justify-content: center;
+
+  background: #fff;
+  color: #17191c;
+}
+
+.doc {
+  width: 100%;
+  max-width: 720px;
+
+  h1 {
+    margin: 6px 0 4px;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -1px;
+  }
+
+  h2 {
+    margin: 36px 0 12px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0 0 16px;
+    color: #3a3d42;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  ul {
+    margin: 0 0 16px;
+    padding-left: 22px;
+    color: #3a3d42;
+    font-size: 15px;
+    line-height: 1.7;
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
+  strong {
+    color: #17191c;
+  }
+
+  a {
+    color: #17191c;
+    text-decoration: underline;
+    text-decoration-color: #c8cbd0;
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+}
+
+.label {
+  margin: 0;
+  color: #999da5;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.updated {
+  margin: 0 0 28px !important;
+  color: #999da5 !important;
+  font-size: 13px !important;
+}
