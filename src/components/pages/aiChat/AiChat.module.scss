@@ -41,6 +41,11 @@
   border-right: 1px solid #eee;
 }
 
+// подложка под выехавшей на мобильном панелью чатов
+.chatsBackdrop {
+  display: none;
+}
+
 .chatsPanelHeader {
   height: 60px;
   flex-shrink: 0;
@@ -61,6 +66,19 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
+}
+
+.chatsPanelHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+// обе кнопки — открыть/закрыть панель чатов — нужны только на мобильном,
+// где панель уезжает поверх переписки, а не стоит рядом с ней
+.historyButton,
+.closeChatsButton {
+  display: none;
 }
 
 .newChatButton {
@@ -683,13 +701,85 @@
   }
 }
 
+// ниже панель чатов и переписка больше не помещаются рядом: панель уезжает
+// в выезжающую поверх шторку, а чат занимает весь экран и остаётся по центру
 @media (max-width: 700px) {
   .topBar {
     padding: 0 18px;
+    gap: 12px;
+  }
+
+  .historyButton {
+    flex-shrink: 0;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #444;
+
+    cursor: pointer;
+
+    &:hover {
+      background: #f7f7f7;
+    }
   }
 
   .chatsPanel {
-    width: 160px;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 60;
+
+    width: min(84vw, 300px);
+
+    box-shadow: 0 0 0 1px #eee;
+
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+  }
+
+  .chatsPanelOpen {
+    transform: translateX(0);
+  }
+
+  .chatsBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+
+    display: block;
+
+    background: rgba(15, 15, 15, 0.35);
+  }
+
+  .closeChatsButton {
+    flex-shrink: 0;
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #777;
+
+    cursor: pointer;
+
+    &:hover {
+      background: #f0f0f0;
+    }
   }
 
   // на тач-экранах нет hover — крестик должен быть виден всегда

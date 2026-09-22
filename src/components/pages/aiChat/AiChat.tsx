@@ -14,6 +14,7 @@ import {
   LuNotebookPen,
   LuPlus,
   LuX,
+  LuHistory,
 } from "react-icons/lu";
 import { useGetChats } from "@/hooks/chat/useGetChats";
 import { useGetChat } from "@/hooks/chat/useGetChat";
@@ -49,6 +50,9 @@ const getErrorMessage = (error: unknown): string => {
 
 const AiChat = () => {
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
+  // на телефоне список чатов не помещается рядом с перепиской — открывается
+  // отдельной панелью поверх, а не сжимает чат вбок
+  const [isChatsOpen, setIsChatsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -149,10 +153,17 @@ const AiChat = () => {
     if (atChatLimit || isCreating) return;
 
     setErrorMessage(null);
+    setIsChatsOpen(false);
 
     createChat(undefined, {
       onSuccess: (newChat) => setSelectedChatId(newChat.id),
     });
+  };
+
+  const handleSelectChat = (id: number) => {
+    setSelectedChatId(id);
+    setErrorMessage(null);
+    setIsChatsOpen(false);
   };
 
   const handleDeleteChat = (id: number, event: React.MouseEvent) => {
@@ -165,24 +176,48 @@ const AiChat = () => {
       <Header />
 
       <div className={scss.body}>
-        <aside className={scss.chatsPanel}>
+        {/* на мобильном — затемнение под выехавшей панелью чатов, закрывает её по тапу */}
+        {isChatsOpen && (
+          <div
+            className={scss.chatsBackdrop}
+            onClick={() => setIsChatsOpen(false)}
+          />
+        )}
+
+        <aside
+          className={`${scss.chatsPanel} ${
+            isChatsOpen ? scss.chatsPanelOpen : ""
+          }`}
+        >
           <div className={scss.chatsPanelHeader}>
             <span>Chats</span>
 
-            <button
-              type="button"
-              className={scss.newChatButton}
-              onClick={handleNewChat}
-              disabled={atChatLimit || isCreating}
-              title={
-                atChatLimit
-                  ? `You can have up to ${MAX_CHATS} chats — delete one first`
-                  : "New chat"
-              }
-              aria-label="New chat"
-            >
-              <LuPlus size={15} />
-            </button>
+            <div className={scss.chatsPanelHeaderActions}>
+              <button
+                type="button"
+                className={scss.newChatButton}
+                onClick={handleNewChat}
+                disabled={atChatLimit || isCreating}
+                title={
+                  atChatLimit
+                    ? `You can have up to ${MAX_CHATS} chats — delete one first`
+                    : "New chat"
+                }
+                aria-label="New chat"
+              >
+                <LuPlus size={15} />
+              </button>
+
+              {/* виден только на узких экранах — там панель открыта поверх чата */}
+              <button
+                type="button"
+                className={scss.closeChatsButton}
+                onClick={() => setIsChatsOpen(false)}
+                aria-label="Close chats"
+              >
+                <LuX size={15} />
+              </button>
+            </div>
           </div>
 
           <div className={scss.chatsList}>
@@ -196,10 +231,7 @@ const AiChat = () => {
                 className={`${scss.chatItem} ${
                   item.id === selectedChatId ? scss.chatItemActive : ""
                 }`}
-                onClick={() => {
-                  setSelectedChatId(item.id);
-                  setErrorMessage(null);
-                }}
+                onClick={() => handleSelectChat(item.id)}
               >
                 <span className={scss.chatItemTitle}>{item.title}</span>
 
@@ -218,6 +250,16 @@ const AiChat = () => {
 
         <main className={scss.chatArea}>
           <header className={scss.topBar}>
+            {/* виден только на узких экранах — открывает панель чатов поверх */}
+            <button
+              type="button"
+              className={scss.historyButton}
+              onClick={() => setIsChatsOpen(true)}
+              aria-label="Chat history"
+            >
+              <LuHistory size={18} />
+            </button>
+
             <div className={scss.brand}>
               <LuSparkles className={scss.brandIcon} />
               <span>AI Operator</span>
