@@ -1,8 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, Plus, Search, StickyNote, Trash2, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Plus,
+  Search,
+  StickyNote,
+  Trash2,
+  X,
+} from "lucide-react";
 import scss from "./Notes.module.scss";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "../header/Header";
 import AuthGuard from "@/components/layout/auth/AuthGuard";
 import { INoteItem, useGetNotes } from "@/hooks/notes/useGetNotes";
@@ -107,6 +116,10 @@ const NotesContent = () => {
   const { mutate: updateItem } = useUpdateNoteItem();
   const { mutate: deleteItem } = useDeleteNoteItem();
 
+  // на телефоне список и заметка не помещаются рядом — не открываем заметку
+  // автоматически, чтобы человек сначала увидел список, а не редактор
+  const isMobile = useIsMobile();
+
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [title, setTitle] = useState("");
@@ -128,7 +141,12 @@ const NotesContent = () => {
       return;
     }
 
-    if (!selectedId || !notes.some((note) => note.id === selectedId)) {
+    if (selectedId && !notes.some((note) => note.id === selectedId)) {
+      setSelectedId(isMobile ? null : notes[0].id);
+      return;
+    }
+
+    if (!selectedId && !isMobile) {
       setSelectedId(notes[0].id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,7 +223,11 @@ const NotesContent = () => {
     <div className={scss.page}>
       <Header />
 
-      <main className={scss.body}>
+      <main
+        className={`${scss.body} ${
+          selectedNote ? scss.bodyDetailOpen : ""
+        }`}
+      >
         <section className={scss.list}>
           <div className={scss.listHeader}>
             <h1>Notes</h1>
@@ -297,6 +319,18 @@ const NotesContent = () => {
           {selectedNote && (
             <>
               <div className={scss.editorToolbar}>
+                {/* виден только на узких экранах — там список и заметка не
+                    помещаются рядом, поэтому заметка открывается на весь экран */}
+                <button
+                  type="button"
+                  className={scss.backButton}
+                  onClick={() => setSelectedId(null)}
+                  aria-label="Back to notes"
+                >
+                  <ArrowLeft size={16} />
+                  Notes
+                </button>
+
                 <span className={scss.saveState}>
                   {saveState === "saving" && "Saving..."}
                   {saveState === "saved" && "Saved"}

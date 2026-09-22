@@ -42,7 +42,9 @@
         border-radius: 15px;
         background: whitesmoke;
         gap: 15px;
-        width: 500px;
+        width: 100%;
+        max-width: 420px;
+        box-sizing: border-box;
         // высота по содержимому: без фиксированной высоты карточка не
         // оставляет пустоты снизу и не переполняется, когда появляются ошибки
         max-height: calc(100dvh - 40px);
@@ -58,23 +60,26 @@
           display: flex;
           flex-direction: column;
           gap: 15px;
+          width: 100%;
           input {
             padding: 6px 20px;
             border-radius: 13px;
             border: 1px solid;
-            width: 320px;
+            width: 100%;
+            box-sizing: border-box;
           }
         }
         button {
           padding: 7px 20px;
           border: 1px solid;
           border-radius: 10px;
-          width: 320px;
+          width: 100%;
           background: #000;
           color: white;
         }
         h4 {
           font-size: 12px;
+          cursor: pointer;
         }
       }
     }
@@ -95,11 +100,16 @@
         border-radius: 15px;
         background: whitesmoke;
         gap: 15px;
-        width: 500px;
-        height: 510px;
+        width: 100%;
+        max-width: 420px;
+        box-sizing: border-box;
+        // как и у Register — высота по содержимому, а не фиксированная,
+        // иначе ошибки валидации или кнопка Google вылезают за карточку
+        max-height: calc(100dvh - 40px);
+        overflow-y: auto;
 
         .google {
-          width: 300px;
+          width: 100%;
           margin-top: 20px;
           height: 43px;
           border: 1px solid #b8b8b8;
@@ -124,38 +134,54 @@
           display: flex;
           flex-direction: column;
           gap: 15px;
+          width: 100%;
           input {
             padding: 6px 20px;
             border-radius: 13px;
             border: 1px solid;
-            width: 320px;
+            width: 100%;
+            box-sizing: border-box;
           }
         }
         button {
           padding: 7px 20px;
           border: 1px solid;
           border-radius: 10px;
-          width: 320px;
+          width: 100%;
           background: #000;
           color: white;
         }
         h4 {
           font-size: 12px;
+          cursor: pointer;
         }
         .lines {
           display: flex;
           align-items: center;
           gap: 10px;
+          width: 100%;
           .line {
-            width: 200px;
+            flex: 1;
             height: 1px;
             background: black;
           }
           h3 {
             margin: 0;
+            flex-shrink: 0;
           }
         }
       }
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin-right: 16px;
+  }
+
+  .modalRegister,
+  .modalLogin {
+    padding: 32px 24px !important;
   }
 }

@@ -329,6 +329,11 @@
   scrollbar-color: #d8d8d8 transparent;
 }
 
+// вне мобильной раскладки список и письмо всегда рядом — кнопка не нужна
+.backButton {
+  display: none;
+}
+
 .detailNotice {
   padding: 32px;
 
@@ -616,5 +621,75 @@
   .preview,
   .separator {
     display: none;
+  }
+}
+
+// на узких экранах список писем и открытое письмо не помещаются рядом —
+// показываем только одну панель за раз и переключаем кнопкой "Inbox"
+@media (max-width: 560px) {
+  .mailList {
+    width: 100%;
+  }
+
+  .body {
+    position: relative;
+  }
+
+  .detail,
+  .detailEmpty {
+    display: none;
+  }
+
+  .bodyDetailOpen {
+    .mailList {
+      display: none;
+    }
+
+    .detail,
+    .detailEmpty {
+      display: flex;
+    }
+  }
+
+  .backButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+
+    margin: 14px 14px 0;
+    padding: 7px 14px 7px 10px;
+
+    border: 1px solid #e4e4e7;
+    border-radius: 999px;
+
+    background: #fff;
+    color: #52525b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+  }
+
+  .detailHeader,
+  .detailBody,
+  .detailNotice {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .composer {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  .detailActions {
+    gap: 6px;
+  }
+
+  .actionButton {
+    padding: 0 10px;
+    font-size: 12px;
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Archive, Forward, Mail, Reply, Trash2 } from "lucide-react";
+import { ArrowLeft, Archive, Forward, Mail, Reply, Trash2 } from "lucide-react";
 import { GmailFilter, useGetGmail } from "@/hooks/gmail/useGetGmail";
 import { useGetGmailMessage } from "@/hooks/gmail/useGetGmailMessage";
 import {
@@ -131,6 +131,18 @@ const MessageDetail = ({ id, onClosed }: MessageDetailProps) => {
 
   return (
     <div className={scss.detail}>
+      {/* виден только на узких экранах — там список и письмо не помещаются
+          рядом, поэтому письмо открывается на весь экран */}
+      <button
+        type="button"
+        className={scss.backButton}
+        onClick={onClosed}
+        aria-label="Back to inbox"
+      >
+        <ArrowLeft size={16} />
+        Inbox
+      </button>
+
       {isLoading && <div className={scss.detailNotice}>Loading message...</div>}
       {isError && (
         <div className={scss.detailNotice}>Failed to load this message.</div>
@@ -313,7 +325,11 @@ const GmailContent = () => {
             </div>
           </div>
 
-          <div className={scss.body}>
+          <div
+            className={`${scss.body} ${
+              selectedId ? scss.bodyDetailOpen : ""
+            }`}
+          >
             <section className={scss.mailList}>
               {isLoading && (
                 <div className={scss.mail}>

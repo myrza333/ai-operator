@@ -371,7 +371,9 @@
   margin-top: 43px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  // minmax(0, 1fr), а не 1fr — иначе длинный текст без переноса в .card p
+  // (white-space: nowrap) растягивает колонку по своему min-content
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
   gap: 12px;
 }
@@ -690,6 +692,11 @@
     width: 160px;
   }
 
+  // на тач-экранах нет hover — крестик должен быть виден всегда
+  .chatItemDelete {
+    opacity: 1;
+  }
+
   .chatsPanelHeader span {
     font-size: 11px;
   }
@@ -705,7 +712,7 @@
   }
 
   .cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .card {

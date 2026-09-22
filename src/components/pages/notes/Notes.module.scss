@@ -373,6 +373,11 @@
   font-weight: 500;
 }
 
+// вне мобильной раскладки список и заметка всегда рядом — кнопка не нужна
+.backButton {
+  display: none;
+}
+
 .deleteButton {
   display: flex;
   align-items: center;
@@ -689,6 +694,11 @@
     font-size: 15px;
   }
 
+  // на тач-экранах нет hover — крестик должен быть виден всегда
+  .taskDelete {
+    opacity: 1;
+  }
+
   .editorToolbar {
     padding: 0 18px;
   }
@@ -699,5 +709,55 @@
 
   .titleInput {
     font-size: 22px;
+  }
+}
+
+// на узких экранах список заметок и открытая заметка не помещаются рядом —
+// показываем только одну панель за раз и переключаем кнопкой "Notes"
+@media (max-width: 560px) {
+  .list {
+    width: 100%;
+  }
+
+  .editor {
+    display: none;
+  }
+
+  .bodyDetailOpen {
+    .list {
+      display: none;
+    }
+
+    .editor {
+      display: flex;
+    }
+  }
+
+  .backButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: auto;
+
+    padding: 7px 14px 7px 10px;
+
+    border: 1px solid #e4e4e7;
+    border-radius: 999px;
+
+    background: #fff;
+    color: #52525b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+  }
+
+  .editorToolbar {
+    padding: 0 14px;
+  }
+
+  .editorScroll {
+    padding: 8px 14px 40px;
   }
 }

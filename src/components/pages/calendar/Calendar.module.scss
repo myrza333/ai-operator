@@ -610,7 +610,9 @@
   }
 
   .actions {
-    button:first-child {
+    // ">" — только кнопка "Сегодня" (прямой потомок), а не "‹" внутри
+    // .navigation: она тоже first-child, но своего блока, а не .actions
+    > button:first-child {
       display: none;
     }
   }
